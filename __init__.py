@@ -42,7 +42,7 @@ class Make_JP_units(bpy.types.Operator):
         return {'FINISHED'}
 
 
-class UI_controller(bpy.types.Panel):
+class Make_JP_units_UI_controller(bpy.types.Panel):
     bl_label = "icyp jp units ui"
     #どこに置くかの定義
     bl_space_type = "VIEW_3D"
@@ -68,7 +68,7 @@ class UI_controller(bpy.types.Panel):
 
 classes = (
     Make_JP_units,
-    UI_controller
+    Make_JP_units_UI_controller
 )
 
 
