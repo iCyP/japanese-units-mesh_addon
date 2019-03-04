@@ -42,12 +42,9 @@ class Make_JP_units(bpy.types.Operator):
         return {'FINISHED'}
 
 
-class Make_JP_units_UI_controller(bpy.types.Panel):
+class Make_JP_units_UI_INNER(bpy.types.Menu):
+    bl_idname = "Make_JP_units_UI_controller"
     bl_label = "icyp jp units ui"
-    #どこに置くかの定義
-    bl_space_type = "VIEW_3D"
-    bl_region_type = "UI"
-    bl_category = "JP units"
 
     @classmethod
     def poll(self, context):
@@ -68,19 +65,25 @@ class Make_JP_units_UI_controller(bpy.types.Panel):
 
 classes = (
     Make_JP_units,
-    Make_JP_units_UI_controller
+    Make_JP_units_UI_INNER
 )
+
+def icyp_jp_units_menu(self, context):
+    self.layout.menu("Make_JP_units_UI_controller",
+                     text="JP_UNIT", icon="PLUGIN")    
 
 
 # アドオン有効化時の処理
 def register():
     for cls in classes:
         bpy.utils.register_class(cls)
+    bpy.types.VIEW3D_MT_mesh_add.append(icyp_jp_units_menu)
 
 # アドオン無効化時の処理
 def unregister():
     for cls in classes:
         bpy.utils.unregister_class(cls)
+    bpy.types.VIEW3D_MT_mesh_add.remove(icyp_jp_units_menu)
 
 if "__main__" == __name__:
     register()
