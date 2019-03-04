@@ -12,7 +12,7 @@ bl_info = {
     "name":"Japanese units mesh maker",
     "author": "iCyP",
     "version": (0, 1),
-    "blender": (2, 79, 0),
+    "blender": (2, 80, 0),
     "location": "3D View->Tools",
     "description": "JP units",
     "warning": "",
@@ -46,7 +46,7 @@ class Make_JP_units_UI_controller(bpy.types.Panel):
     bl_label = "icyp jp units ui"
     #どこに置くかの定義
     bl_space_type = "VIEW_3D"
-    bl_region_type = "TOOLS"
+    bl_region_type = "UI"
     bl_category = "JP units"
 
     @classmethod
