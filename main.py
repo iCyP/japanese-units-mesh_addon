@@ -11,10 +11,13 @@ import bmesh
 from collections import OrderedDict
 
 
-def rectangle(xy, add_origin):
+def rectangle(xy, dir):
     x = xy[0]
     y = xy[1]
-    return ((0, 0, 0), (0, y, 0), (x, y, 0), (x, 0, 0))
+    if dir == "xy":
+        return ((0, 0, 0), (0, y, 0), (x, y, 0), (x, 0, 0))
+    elif dir == "xz":
+        return ((0, 0, 0), (0, 0, y), (x, 0, y), (x, 0, 0))
 
 
 def make_rect_obj(name, rect):
@@ -31,92 +34,116 @@ def make_rect_mesh(name, rect):
     for v in rect:
         vi = bm.verts.new(v)
         for i in range(3):
-            vi.co[i] = vi.co[i] + bpy.context.scene.cursor_location[i] - bpy.context.active_object.location[i]
+            vi.co[i] = vi.co[i] + bpy.context.scene.cursor_location[i] - \
+                bpy.context.active_object.location[i]
         vlist.append(vi)
     bm.faces.new(vlist)
     bmesh.update_edit_mesh(bpy.context.active_object.data)
 
 
 def make_mesh(base, adapt):
-    make_rect_obj(adapt, rectangle(unitdic[base][adapt], False))
+    make_rect_obj(adapt, rectangle(unitdic[base][0][adapt], unitdic[base][1]))
     return
 
 
 def add_mesh(base, adapt):
-    make_rect_mesh(adapt, rectangle(unitdic[base][adapt], True))
+    make_rect_mesh(adapt, rectangle(unitdic[base][0][adapt], unitdic[base][1]))
     return
 
 
-sun = 1/33
+sun = 1/33  # 寸
 _syaku = 10*sun
 
 unitdic = OrderedDict(
     (
         (
             "paperA",
-            OrderedDict(
-                (
-                    ["A6", (0.105, 0.148)],
-                    ["A5", (0.148, 0.210)],
-                    ["A4", (0.210, 0.297)],
-                    ["A3", (0.297, 0.420)],
-                    ["A2", (0.420, 0.594)],
-                    ["A1", (0.594, 0.841)],
-                    ["A0", (0.841, 1.189)]
-                )
-            )
+            [
+                OrderedDict(
+                    (
+                        ["A6", (0.105, 0.148)],
+                        ["A5", (0.148, 0.210)],
+                        ["A4", (0.210, 0.297)],
+                        ["A3", (0.297, 0.420)],
+                        ["A2", (0.420, 0.594)],
+                        ["A1", (0.594, 0.841)],
+                        ["A0", (0.841, 1.189)]
+                    )
+                ), "xy"
+            ]
         ),
 
         (
-            "paperB",
-            OrderedDict(
-                (
-                    ["B6", (0.128, 0.182)],
-                    ["B5", (0.182, 0.257)],
-                    ["B4", (0.257, 0.364)],
-                    ["B3", (0.364, 0.515)],
-                    ["B2", (0.515, 0.728)],
-                    ["B1", (0.728, 1.030)],
-                    ["B0", (1.030, 1.456)]
-                )
-            )
+            "paperB", [
+                OrderedDict(
+                    (
+                        ["B6", (0.128, 0.182)],
+                        ["B5", (0.182, 0.257)],
+                        ["B4", (0.257, 0.364)],
+                        ["B3", (0.364, 0.515)],
+                        ["B2", (0.515, 0.728)],
+                        ["B1", (0.728, 1.030)],
+                        ["B0", (1.030, 1.456)]
+                    )
+                ),
+                "xy"
+            ]
         ),
 
         (
-            "tatami",
-            OrderedDict(
-                (
-                    ["Nishi(L)", (1.91, 0.955)],
-                    ["Nishi(L) Half", (0.955, 0.955)],
-                    ["Higashi(M)", (1.76, 0.878)],
-                    ["Higashi(M) Half", (0.878, 0.878)],
-                    ["Danchi(S)", (1.70, 0.85)],
-                    ["Danchi(S) Half", (0.85, 0.85)]
-                )
-            )
+            "tatami", [
+                OrderedDict(
+                    (
+                        ["Nishi(L)", (1.91, 0.955)],
+                        ["Nishi(L) Half", (0.955, 0.955)],
+                        ["Higashi(M)", (1.76, 0.878)],
+                        ["Higashi(M) Half", (0.878, 0.878)],
+                        ["Danchi(S)", (1.70, 0.85)],
+                        ["Danchi(S) Half", (0.85, 0.85)]
+                    )
+                ),
+                "xy"
+            ]
+        ),
+        (
+            "Door", [
+                OrderedDict(
+                    (
+                        ["husuma(襖)", (0.9,1.8)],
+                        ["indoor(室内) S", (0.734, 1.983)],
+                        ["indoor(室内) L", (0.868, 1.983)],
+                        ["Entrance(玄関) S", (0.78, 2)],
+                        ["Entrance(玄関) L", (0.94, 2.312)]
+                    )
+                ),
+                "xz"
+            ]
         ),
 
-
         (
-            "pillar",
-            OrderedDict(
-                (
-                    ["105mm (≒3.5寸)", (0.105, 0.105)],
-                    ["120mm (≒4.0寸)", (0.120, 0.120)]
-                )
-            )
+            "pillar", [
+                OrderedDict(
+                    (
+                        ["105mm角 (≒3.5寸)", (0.105, 0.105)],
+                        ["120mm角 (≒4.0寸)", (0.120, 0.120)]
+                    )
+                ),
+                "xy"
+            ]
         ),
 
         (
-            "尺(syaku)",
-            OrderedDict(
-                (
-                    ["1尺(syaku) ≒30cm", (_syaku, _syaku)],
-                    ["3尺(syaku) ≒90cm", (3*_syaku, 3*_syaku)],
-                    ["6尺(syaku) ≒180cm", (6*_syaku, 6*_syaku)],
-                    ["8尺(syaku) ≒240cm", (8*_syaku, 8*_syaku)]
-                )
-            )
+            "尺(syaku)", [
+                OrderedDict(
+                    (
+                        ["1尺(syaku) ≒30cm", (_syaku, _syaku)],
+                        ["3尺(syaku) ≒90cm", (3*_syaku, 3*_syaku)],
+                        ["6尺(syaku) ≒180cm", (6*_syaku, 6*_syaku)],
+                        ["8尺(syaku) ≒240cm", (8*_syaku, 8*_syaku)]
+                    )
+                ),
+                "xy"
+            ]
         )
 
     )

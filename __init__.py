@@ -52,7 +52,7 @@ class sub_Make_JP_units_UI_INNER(bpy.types.Menu):
         return True
     def draw(self,context):
         col = self.layout.column()
-        for key in unitdic[self.unit].keys():
+        for key in unitdic[self.unit][0].keys():
             ops_button = col.operator(Make_JP_units.bl_idname,text = key)
             ops_button.mode = context.mode
             ops_button.base = self.unit
