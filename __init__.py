@@ -42,6 +42,29 @@ class Make_JP_units(bpy.types.Operator):
         return {'FINISHED'}
 
 
+class sub_Make_JP_units_UI_INNER(bpy.types.Menu):
+    bl_idname = "sub_Make_JP_units_UI_controller"
+    bl_label = "sub icyp jp units ui"
+    unit = None
+
+    @classmethod
+    def poll(self,context):
+        return True
+    def draw(self,context):
+        col = self.layout.column()
+        for key in unitdic[self.unit].keys():
+            ops_button = col.operator(Make_JP_units.bl_idname,text = key)
+            ops_button.mode = context.mode
+            ops_button.base = self.unit
+            ops_button.adapt = key
+
+
+import types
+classes = [types.new_class("sub_icyp_unit",(sub_Make_JP_units_UI_INNER,)) for key in unitdic.keys()]
+for c,k in zip(classes,unitdic.keys()):
+    c.bl_idname = f"icyp_jp_unit_{k}"
+    c.unit = k
+
 class Make_JP_units_UI_INNER(bpy.types.Menu):
     bl_idname = "Make_JP_units_UI_controller"
     bl_label = "icyp jp units ui"
@@ -55,18 +78,14 @@ class Make_JP_units_UI_INNER(bpy.types.Menu):
 
     def draw(self, context):
         col = self.layout.column(align=True)
-        for unit,vals in unitdic.items():
-            col.label(text=unit)
-            for key in vals.keys():
-                ops_button = col.operator(Make_JP_units.bl_idname,text = key)
-                ops_button.mode = context.mode
-                ops_button.base = unit
-                ops_button.adapt = key
+        for cl in classes:
+            #なんかエラー出るけど動いてるからいいや
+            menu = col.menu(cl.bl_idname,text = cl.unit)
 
-classes = (
+classes.extend( [
     Make_JP_units,
     Make_JP_units_UI_INNER
-)
+])
 
 def icyp_jp_units_menu(self, context):
     self.layout.menu("Make_JP_units_UI_controller",

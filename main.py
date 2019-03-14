@@ -22,7 +22,7 @@ def make_rect_obj(name, rect):
     m.from_pydata(rect, [], [[0, 1, 2, 3]])
     obj = bpy.data.objects.new(name, m)
     bpy.context.scene.collection.objects.link(obj)
-    obj.location = bpy.context.scene.cursor_location
+    obj.location = bpy.context.scene.cursor.location
 
 
 def make_rect_mesh(name, rect):
