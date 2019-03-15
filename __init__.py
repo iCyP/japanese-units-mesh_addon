@@ -29,9 +29,9 @@ class Make_JP_units(bpy.types.Operator):
     bl_description = "make JP units mesh"
     bl_options = {'REGISTER', 'UNDO'}
 
-    mode = bpy.props.StringProperty(options={"HIDDEN"})
-    base = bpy.props.StringProperty(options={"HIDDEN"})
-    adapt = bpy.props.StringProperty(options={"HIDDEN"})
+    mode : bpy.props.StringProperty(options={"HIDDEN"})
+    base : bpy.props.StringProperty(options={"HIDDEN"})
+    adapt : bpy.props.StringProperty(options={"HIDDEN"})
     
     def execute(self,context):
         print("{},{}".format(self.base, self.adapt))
