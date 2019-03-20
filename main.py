@@ -110,9 +110,9 @@ unitdic = OrderedDict(
             "Door", [
                 OrderedDict(
                     (
-                        ["husuma(襖)", (0.9,1.8)],
-                        ["indoor(室内) S", (0.734, 1.983)],
-                        ["indoor(室内) L", (0.868, 1.983)],
+                        ["Husuma(襖)", (0.9,1.8)],
+                        ["Indoor(室内) S", (0.734, 1.983)],
+                        ["Indoor(室内) L", (0.868, 1.983)],
                         ["Entrance(玄関) S", (0.78, 2)],
                         ["Entrance(玄関) L", (0.94, 2.312)]
                     )
@@ -122,7 +122,7 @@ unitdic = OrderedDict(
         ),
 
         (
-            "pillar", [
+            "Pillar", [
                 OrderedDict(
                     (
                         ["105mm角 (≒3.5寸)", (0.105, 0.105)],
