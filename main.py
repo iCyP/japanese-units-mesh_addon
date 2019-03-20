@@ -9,7 +9,7 @@ https://opensource.org/licenses/mit-license.php
 import bpy
 import bmesh
 from collections import OrderedDict
-
+from math import sqrt
 
 def rectangle(xy, dir):
     x = xy[0]
@@ -52,7 +52,8 @@ def add_mesh(base, adapt):
 
 
 sun = 1/33  # 寸
-_syaku = 10*sun
+_syaku = 10 * sun
+inti = 0.0254 #cm
 
 unitdic = OrderedDict(
     (
@@ -131,7 +132,35 @@ unitdic = OrderedDict(
                 "xy"
             ]
         ),
-
+        (
+            "Bed", [
+                OrderedDict(
+                    (
+                        ["Single", (0.97, 1.95)],
+                        ["SemiDouble", (1.20,1.95)],
+                        ["Double", (1.40, 1.95)],
+                        ["Queen", (1.60, 1.95)],
+                        ["King", (1.80, 1.95)],
+                    )
+                ),
+                "xy"
+            ]
+        ),
+        (
+            "TV", [
+                OrderedDict(
+                    (
+                        ["21.5in", (21.5*inti/sqrt(337) * 16, 21.5*inti/sqrt(337) * 9)], 
+                        ["23.8in", (23.8*inti/sqrt(337) * 16, 23.8*inti/sqrt(337) * 9)],
+                        ["31.0in", (31*inti/sqrt(337) * 16, 31*inti/sqrt(337) * 9)],
+                        ["43.0in", (43*inti/sqrt(337) * 16, 43*inti/sqrt(337) * 9)],
+                        ["49.0in", (49*inti/sqrt(337) * 16, 49*inti/sqrt(337) * 9)],
+                        ["55.0in", (55*inti/sqrt(337) * 16, 55*inti/sqrt(337) * 9)],
+                    )
+                ),
+                "xz"
+            ]
+        ),
         (
             "尺(syaku)", [
                 OrderedDict(
