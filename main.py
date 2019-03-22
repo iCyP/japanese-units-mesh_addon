@@ -15,9 +15,9 @@ def rectangle(xy, dir):
     x = xy[0]
     y = xy[1]
     if dir == "xy":
-        return ((0, 0, 0), (0, y, 0), (x, y, 0), (x, 0, 0))
+        return ((-x/2, -y/2, 0), (-x/2, y/2, 0), (x/2, y/2, 0), (x/2, -y/2, 0))
     elif dir == "xz":
-        return ((0, 0, 0), (0, 0, y), (x, 0, y), (x, 0, 0))
+        return ((-x/2, 0, -y/2), (-x/2, 0, y), (x/2, 0, y), (x/2, 0, -y/2))
 
 
 def make_rect_obj(name, rect):
