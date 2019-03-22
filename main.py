@@ -88,6 +88,20 @@ def make_cubic_mesh(name,cubec_points):
     bm.normal_update()
     bmesh.update_edit_mesh(bpy.context.active_object.data)
 
+from math import sin,cos,radians
+def make_cylinder_obj(name,radius,width):
+    ring_a = [(0,sin(radians(t*10)),cos(radians(t*10))) for t in range(36)]
+    ring_b = [(width,sin(radians(t*10)),cos(radians(t*10))) for t in range(36)]
+    cylinder_points = ring_a.extend(ring_b)
+    cylinder_index = [list(range(36)),list(range(36,72))]
+    #TODO fill rim
+
+    m = bpy.data.meshes.new(name)
+    m.from_pydata(cylinder_points, [], cylinder_index)
+    obj = bpy.data.objects.new(name, m)
+    bpy.context.scene.collection.objects.link(obj)
+    obj.location = bpy.context.scene.cursor.location
+
 
 def make_mesh(base, adapt):
     if unitdic[base][1] == "xyz":
