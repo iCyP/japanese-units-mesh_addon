@@ -20,34 +20,88 @@ def rectangle(xy, dir):
         return ((-x/2, 0, -y/2), (-x/2, 0, y), (x/2, 0, y), (x/2, 0, -y/2))
 
 
-def make_rect_obj(name, rect):
+def make_rect_obj(name, rect_points):
     m = bpy.data.meshes.new(name)
-    m.from_pydata(rect, [], [[0, 1, 2, 3]])
+    m.from_pydata(rect_points, [], [[0, 1, 2, 3]])
     obj = bpy.data.objects.new(name, m)
     bpy.context.scene.collection.objects.link(obj)
     obj.location = bpy.context.scene.cursor.location
 
 
-def make_rect_mesh(name, rect):
+def make_rect_mesh(name, rect_points):
     bm = bmesh.from_edit_mesh(bpy.context.active_object.data)
     vlist = []
-    for v in rect:
+    for v in rect_points:
         vi = bm.verts.new(v)
         for i in range(3):
-            vi.co[i] = vi.co[i] + bpy.context.scene.cursor_location[i] - \
+            vi.co[i] = vi.co[i] + bpy.context.scene.cursor.location[i] - \
                 bpy.context.active_object.location[i]
         vlist.append(vi)
     bm.faces.new(vlist)
     bmesh.update_edit_mesh(bpy.context.active_object.data)
 
+def cubic(xyz):
+    x = xyz[0]
+    y = xyz[1]
+    z = xyz[2]
+    return (
+        (-x/2,-y/2,0),
+        (-x/2,y/2,0),
+        (x/2,y/2,0),
+        (x/2,-y/2,0),
+
+        (-x/2,-y/2,z),
+        (-x/2,y/2,z),
+        (x/2,y/2,z),
+        (x/2,-y/2,z),
+    )
+
+cube_loop = [
+    [0,1,2,3],
+    [4,5,6,7],
+    [0,1,5,4],
+    [2,3,7,6],
+    [1,2,6,5],
+    [0,3,7,4]
+]
+
+def make_cubic_obj(name, cubec_points):
+    m = bpy.data.meshes.new(name)
+    m.from_pydata(cubec_points, [], cube_loop)
+    obj = bpy.data.objects.new(name, m)
+    bpy.context.scene.collection.objects.link(obj)
+    obj.location = bpy.context.scene.cursor.location
+
+
+def make_cubic_mesh(name,cubec_points):
+    bm = bmesh.from_edit_mesh(bpy.context.active_object.data)
+    vlist = []
+    for v in cubec_points:
+        vi = bm.verts.new(v)
+        for i in range(3):
+            vi.co[i] = vi.co[i] + bpy.context.scene.cursor.location[i] - \
+                bpy.context.active_object.location[i]
+        vlist.append(vi)
+
+    for cl in cube_loop:
+        bm.faces.new([vlist[i] for i in cl])
+    bm.normal_update()
+    bmesh.update_edit_mesh(bpy.context.active_object.data)
+
 
 def make_mesh(base, adapt):
-    make_rect_obj(adapt, rectangle(unitdic[base][0][adapt], unitdic[base][1]))
+    if unitdic[base][1] == "xyz":
+        make_cubic_obj(adapt,cubic(unitdic[base][0][adapt]))
+    else:
+        make_rect_obj(adapt, rectangle(unitdic[base][0][adapt], unitdic[base][1]))
     return
 
 
 def add_mesh(base, adapt):
-    make_rect_mesh(adapt, rectangle(unitdic[base][0][adapt], unitdic[base][1]))
+    if unitdic[base][1] == "xyz":
+        make_cubic_mesh(adapt,cubic(unitdic[base][0][adapt]))
+    else:
+        make_rect_mesh(adapt, rectangle(unitdic[base][0][adapt], unitdic[base][1]))
     return
 
 
@@ -172,6 +226,17 @@ unitdic = OrderedDict(
                     )
                 ),
                 "xy"
+            ]
+        ),
+        (
+            "Car", [
+                OrderedDict(
+                    (
+                        ["KEI4", (1.48,3.4,2.0)],
+                        ["3Num",(1.7,4.7,2.0)]
+                    )
+                ),
+                "xyz"
             ]
         )
 
