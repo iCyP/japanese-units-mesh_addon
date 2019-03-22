@@ -92,6 +92,8 @@ def make_cubic_mesh(name,cubec_points):
 def make_mesh(base, adapt):
     if unitdic[base][1] == "xyz":
         make_cubic_obj(adapt,cubic(unitdic[base][0][adapt]))
+    elif unitdic[base][1] == "cylinder":
+        pass #TODO
     else:
         make_rect_obj(adapt, rectangle(unitdic[base][0][adapt], unitdic[base][1]))
     return
@@ -100,6 +102,8 @@ def make_mesh(base, adapt):
 def add_mesh(base, adapt):
     if unitdic[base][1] == "xyz":
         make_cubic_mesh(adapt,cubic(unitdic[base][0][adapt]))
+    elif unitdic[base][1] == "cylinder":
+        pass #TODO
     else:
         make_rect_mesh(adapt, rectangle(unitdic[base][0][adapt], unitdic[base][1]))
     return
@@ -239,7 +243,22 @@ unitdic = OrderedDict(
                 ),
                 "xyz"
             ]
+        ),
+        (
+            "Tire(WIP:Still Cube)", [
+                OrderedDict(
+                    (
+                        ["KEI4", (0.165,0.562,0.562)], #w,2r
+                        ["Normal Basic",(0.195,0.634,0.634)],
+                        ["Normal Van",(0.195,0.693,0.693)],
+                        ["Normal Sports",(0.245,0.656,0.656)],
+                        ["GT",(0.300,0.604,0.604)],
+                    )
+                ),
+                "xyz"#cylinder"
+            ]
         )
+
 
     )
 )
