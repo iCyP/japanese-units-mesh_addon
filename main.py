@@ -90,24 +90,57 @@ def make_cubic_mesh(name,cubec_points):
 
 from math import sin,cos,radians
 def make_cylinder_obj(name,radius,width):
-    ring_a = [(0,sin(radians(t*10)),cos(radians(t*10))) for t in range(36)]
-    ring_b = [(width,sin(radians(t*10)),cos(radians(t*10))) for t in range(36)]
-    cylinder_points = ring_a.extend(ring_b)
+    ring_a = [(0,sin(radians(t*10))*radius,cos(radians(t*10))*radius) for t in range(36)]
+    ring_b = [(width,sin(radians(t*10))*radius,cos(radians(t*10))*radius) for t in range(36)]
+    ring_a.extend(ring_b)
+    cylinder_points = ring_a
     cylinder_index = [list(range(36)),list(range(36,72))]
-    #TODO fill rim
-
+    for i in range(35):
+        cylinder_index.append([i,i+1,i+37,i+36])
+    cylinder_index.append([35,0,36,71])
     m = bpy.data.meshes.new(name)
     m.from_pydata(cylinder_points, [], cylinder_index)
     obj = bpy.data.objects.new(name, m)
     bpy.context.scene.collection.objects.link(obj)
     obj.location = bpy.context.scene.cursor.location
 
+def make_cubic_mesh(name,radius,width):
+    bm = bmesh.from_edit_mesh(bpy.context.active_object.data)
+    ring_a = []
+    for t in range(36):
+        v = (0,sin(radians(t*10))*radius,cos(radians(t*10))*radius)
+        vi = bm.verts.new(v)
+        for i in range(3):
+            vi.co[i] = vi.co[i] + bpy.context.scene.cursor.location[i] - \
+                bpy.context.active_object.location[i]
+        ring_a.append(vi)
+    ring_b = []
+    for t in range(36):
+        v = (width,sin(radians(t*10))*radius,cos(radians(t*10))*radius)
+        vi = bm.verts.new(v)
+        for i in range(3):
+            vi.co[i] = vi.co[i] + bpy.context.scene.cursor.location[i] - \
+                bpy.context.active_object.location[i]
+        ring_b.append(vi)
+    
+    bm.faces.new(ring_a)
+    bm.faces.new(ring_b)
+    ring_a.extend(ring_b)
+    rim_index = []
+    for i in range(35):
+        rim_index.append([i,i+1,i+37,i+36])
+    rim_index.append([35,0,36,71])
+    for index in rim_index:
+        bm.faces.new([ring_a[id] for id in index])
+
+    bm.normal_update()
+    bmesh.update_edit_mesh(bpy.context.active_object.data)
 
 def make_mesh(base, adapt):
     if unitdic[base][1] == "xyz":
         make_cubic_obj(adapt,cubic(unitdic[base][0][adapt]))
     elif unitdic[base][1] == "cylinder":
-        pass #TODO
+        make_cylinder_obj(adapt,unitdic[base][0][adapt][1]/2,unitdic[base][0][adapt][0])
     else:
         make_rect_obj(adapt, rectangle(unitdic[base][0][adapt], unitdic[base][1]))
     return
@@ -117,7 +150,7 @@ def add_mesh(base, adapt):
     if unitdic[base][1] == "xyz":
         make_cubic_mesh(adapt,cubic(unitdic[base][0][adapt]))
     elif unitdic[base][1] == "cylinder":
-        pass #TODO
+        make_cubic_mesh(adapt,unitdic[base][0][adapt][1]/2,unitdic[base][0][adapt][0])
     else:
         make_rect_mesh(adapt, rectangle(unitdic[base][0][adapt], unitdic[base][1]))
     return
@@ -259,17 +292,17 @@ unitdic = OrderedDict(
             ]
         ),
         (
-            "Tire(WIP:Still Cube)", [
+            "Tire", [
                 OrderedDict(
                     (
-                        ["KEI4", (0.165,0.562,0.562)], #w,2r
-                        ["Normal Basic",(0.195,0.634,0.634)],
-                        ["Normal Van",(0.195,0.693,0.693)],
-                        ["Normal Sports",(0.245,0.656,0.656)],
-                        ["GT",(0.300,0.604,0.604)],
+                        ["KEI4", (0.165,0.562)], #w,2r
+                        ["Normal Basic",(0.195,0.634)],
+                        ["Normal Van",(0.195,0.693)],
+                        ["Normal Sports",(0.245,0.656)],
+                        ["GT",(0.300,0.604)],
                     )
                 ),
-                "xyz"#cylinder"
+                "cylinder"
             ]
         )
 
