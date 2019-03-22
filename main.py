@@ -233,7 +233,8 @@ unitdic = OrderedDict(
                 OrderedDict(
                     (
                         ["KEI4", (1.48,3.4,2.0)],
-                        ["3Num",(1.7,4.7,2.0)]
+                        ["3Num",(1.7,4.7,2.0)],
+                        ["GTlike",(1.9,5.0,1.4)]
                     )
                 ),
                 "xyz"
