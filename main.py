@@ -17,7 +17,7 @@ def rectangle(xy, dir):
     if dir == "xy":
         return ((-x/2, -y/2, 0), (-x/2, y/2, 0), (x/2, y/2, 0), (x/2, -y/2, 0))
     elif dir == "xz":
-        return ((-x/2, 0, -y/2), (-x/2, 0, y), (x/2, 0, y), (x/2, 0, -y/2))
+        return ((-x/2, 0, -y/2), (-x/2, 0, y/2), (x/2, 0, y/2), (x/2, 0, -y/2))
 
 
 def make_rect_obj(name, rect_points):
