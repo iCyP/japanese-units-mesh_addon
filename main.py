@@ -104,7 +104,8 @@ def make_cylinder_obj(name,radius,width):
     bpy.context.scene.collection.objects.link(obj)
     obj.location = bpy.context.scene.cursor.location
 
-def make_cubic_mesh(name,radius,width):
+
+def make_cylinder_mesh(name,radius,width):
     bm = bmesh.from_edit_mesh(bpy.context.active_object.data)
     ring_a = []
     for t in range(36):
@@ -150,7 +151,7 @@ def add_mesh(base, adapt):
     if unitdic[base][1] == "xyz":
         make_cubic_mesh(adapt,cubic(unitdic[base][0][adapt]))
     elif unitdic[base][1] == "cylinder":
-        make_cubic_mesh(adapt,unitdic[base][0][adapt][1]/2,unitdic[base][0][adapt][0])
+        make_cylinder_mesh(adapt,unitdic[base][0][adapt][1]/2,unitdic[base][0][adapt][0])
     else:
         make_rect_mesh(adapt, rectangle(unitdic[base][0][adapt], unitdic[base][1]))
     return
@@ -230,11 +231,11 @@ unitdic = OrderedDict(
             "Pillar", [
                 OrderedDict(
                     (
-                        ["105mm2", (0.105, 0.105)], #(≒3.5寸)
-                        ["120mm2", (0.120, 0.120)]  #(≒4.0寸)
+                        ["105mm2", (0.105, 0.105,8*_syaku)], #(≒3.5寸)
+                        ["120mm2", (0.120, 0.120,8*_syaku)]  #(≒4.0寸)
                     )
                 ),
-                "xy"
+                "xyz"
             ]
         ),
         (
