@@ -62,11 +62,11 @@ class sub_Make_JP_units_UI_INNER(bpy.types.Menu):
 import types
 classes = [types.new_class("sub_icyp_unit",(sub_Make_JP_units_UI_INNER,)) for key in unitdic.keys()]
 for c,k in zip(classes,unitdic.keys()):
-    c.bl_idname = f"icyp_jp_unit_{k}"
+    c.bl_idname = f"ICYP_MT_jp_{k}_unit"
     c.unit = k
 
 class Make_JP_units_UI_INNER(bpy.types.Menu):
-    bl_idname = "Make_JP_units_UI_controller"
+    bl_idname = "ICYP_MT_Make_JP_units_UI_controller"
     bl_label = "icyp jp units ui"
 
     @classmethod
@@ -88,7 +88,7 @@ classes.extend( [
 ])
 
 def icyp_jp_units_menu(self, context):
-    self.layout.menu("Make_JP_units_UI_controller",
+    self.layout.menu(Make_JP_units_UI_INNER.bl_idname,
                      text="JP_UNIT", icon="PLUGIN")    
 
 

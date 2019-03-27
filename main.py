@@ -215,11 +215,11 @@ unitdic = OrderedDict(
             "Door", [
                 OrderedDict(
                     (
-                        ["Husuma(襖)", (0.9,1.8)],
-                        ["Indoor(室内) S", (0.734, 1.983)],
-                        ["Indoor(室内) L", (0.868, 1.983)],
-                        ["Entrance(玄関) S", (0.78, 2)],
-                        ["Entrance(玄関) L", (0.94, 2.312)]
+                        ["Husuma", (0.9,1.8)],
+                        ["Indoor S", (0.734, 1.983)],
+                        ["Indoor L", (0.868, 1.983)],
+                        ["Entrance S", (0.78, 2)],
+                        ["Entrance L", (0.94, 2.312)]
                     )
                 ),
                 "xz"
@@ -230,8 +230,8 @@ unitdic = OrderedDict(
             "Pillar", [
                 OrderedDict(
                     (
-                        ["105mm角 (≒3.5寸)", (0.105, 0.105)],
-                        ["120mm角 (≒4.0寸)", (0.120, 0.120)]
+                        ["105mm2", (0.105, 0.105)], #(≒3.5寸)
+                        ["120mm2", (0.120, 0.120)]  #(≒4.0寸)
                     )
                 ),
                 "xy"
@@ -267,13 +267,13 @@ unitdic = OrderedDict(
             ]
         ),
         (
-            "尺(syaku)", [
+            "syaku", [ #尺
                 OrderedDict(
                     (
-                        ["1尺(syaku) ≒30cm", (_syaku, _syaku)],
-                        ["3尺(syaku) ≒90cm", (3*_syaku, 3*_syaku)],
-                        ["6尺(syaku) ≒180cm", (6*_syaku, 6*_syaku)],
-                        ["8尺(syaku) ≒240cm", (8*_syaku, 8*_syaku)]
+                        ["1syaku", (_syaku, _syaku)],   #"≒30cm
+                        ["3syaku", (3*_syaku, 3*_syaku)],#≒90cm
+                        ["6syaku", (6*_syaku, 6*_syaku)],#≒180cm
+                        ["8syaku", (8*_syaku, 8*_syaku)] #≒240cm
                     )
                 ),
                 "xy"
