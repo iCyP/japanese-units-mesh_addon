@@ -311,7 +311,7 @@ unitdic = OrderedDict(
                 OrderedDict(
                     (
                         ["JIS_normal",(0.210,0.10,0.06)],
-                    ),
+                    )
             ),
             "xyz"
             ]
