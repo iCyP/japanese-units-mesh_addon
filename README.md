@@ -5,4 +5,4 @@
 1. ZipをここのページからDLします</br>
 1. それをblenderのaddon設定画面でinstallします</br>
 1. testingにあるのでONにします</br>
-1. TOOLにOBJECTモードとEdit meshﾓｰﾄﾞだとJP unitsタブがあるので、押してほしいやつをクリック。</br>
+1. Add meshにいるので好きなものをえらんでPONG!
