@@ -322,7 +322,7 @@ unitdic = OrderedDict(
             "Grip", [
                 OrderedDict(
                     (
-                        ["A",(0.034,0.017,0.18)],
+                        ["A",(0.034,0.017,0.18)],#Sord
                     )
                 ),
                 "xyz"
