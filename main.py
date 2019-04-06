@@ -94,7 +94,7 @@ def make_cylinder_obj(name,radius,width):
     ring_b = [(width,sin(radians(t*10))*radius,cos(radians(t*10))*radius) for t in range(36)]
     ring_a.extend(ring_b)
     cylinder_points = ring_a
-    cylinder_index = [list(range(36)),list(range(36,72))]
+    cylinder_index = [list(reversed(list(range(36)))),list(range(36,72))]
     for i in range(35):
         cylinder_index.append([i,i+1,i+37,i+36])
     cylinder_index.append([35,0,36,71])
@@ -124,7 +124,7 @@ def make_cylinder_mesh(name,radius,width):
                 bpy.context.active_object.location[i]
         ring_b.append(vi)
     
-    bm.faces.new(ring_a)
+    bm.faces.new(reversed(ring_a))
     bm.faces.new(ring_b)
     ring_a.extend(ring_b)
     rim_index = []
