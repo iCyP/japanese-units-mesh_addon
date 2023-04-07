@@ -16,7 +16,6 @@ bl_info = {
     "location": "3D View->Tools",
     "description": "JP units",
     "warning": "",
-    "support": "TESTING",
     "wiki_url": "",
     "tracker_url": "",
     "category": "Mesh"
